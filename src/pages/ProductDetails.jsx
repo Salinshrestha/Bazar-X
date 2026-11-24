@@ -10,6 +10,7 @@ const ProductDetails = () => {
   const [size, setSize] = useState("M");
 
   const product = products.find((p) => p.id === Number(id));
+  const user = JSON.parse(localStorage.getItem("user"));
 
   if (!product) {
     return (
@@ -26,6 +27,11 @@ const ProductDetails = () => {
   }
 
   const addToCart = () => {
+    if (!user) {
+      navigate("/login", { state: { from: `/product/${id}` } });
+      return;
+    }
+
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const found = cart.find((item) => item.id === product.id);
 
@@ -138,7 +144,7 @@ const ProductDetails = () => {
               onClick={addToCart}
               className="flex-1 bg-neutral-900 py-4 text-xs font-semibold tracking-[0.15em] text-white transition hover:bg-neutral-700"
             >
-              ADD TO CART
+              {user ? "ADD TO CART" : "SIGN IN TO ADD TO CART"}
             </button>
             <button
               aria-label="Add to wishlist"
@@ -147,6 +153,15 @@ const ProductDetails = () => {
               <Heart size={18} />
             </button>
           </div>
+
+          {!user && (
+            <p className="mt-4 text-xs text-neutral-500">
+              You need an account to add items to your cart.{" "}
+              <Link to="/register" className="underline">
+                Create one
+              </Link>
+            </p>
+          )}
 
           {/* INFO */}
           <div className="mt-12 space-y-4 border-t border-neutral-200 pt-8 text-sm">

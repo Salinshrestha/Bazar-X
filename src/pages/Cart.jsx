@@ -69,17 +69,25 @@ const Cart = () => {
         <div className="lg:col-span-2">
           {cart.map((item) => (
             <div key={item.id} className="flex gap-6 border-b border-neutral-200 py-6 first:pt-0">
-              <img
-                src={item.img}
-                alt={item.name}
-                className="h-36 w-28 shrink-0 bg-neutral-100 object-cover"
-              />
+              <Link to={`/product/${item.id}`} className="shrink-0">
+                <img
+                  src={item.img}
+                  alt={item.name}
+                  className="h-36 w-28 bg-neutral-100 object-cover"
+                />
+              </Link>
 
               <div className="flex flex-1 flex-col justify-between">
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <h3 className="text-sm font-semibold uppercase tracking-wide">{item.name}</h3>
-                    <p className="mt-1 text-xs text-neutral-500">{item.cat}</p>
+                    <Link to={`/product/${item.id}`}>
+                      <h3 className="text-sm font-semibold uppercase tracking-wide hover:underline">
+                        {item.name}
+                      </h3>
+                    </Link>
+                    <p className="mt-1 text-xs text-neutral-500">
+                      {item.cat}{item.size && ` · Size ${item.size}`}
+                    </p>
                     <p className="mt-1 text-xs text-neutral-500">{rs(item.price)} each</p>
                   </div>
                   <button
@@ -147,9 +155,15 @@ const Cart = () => {
             </p>
           )}
 
-          <button className="w-full bg-neutral-900 py-4 text-xs font-semibold tracking-[0.15em] text-white transition hover:bg-neutral-700">
+
+          
+
+          <Link
+            to="/checkout"
+            className="block p-3.5 w-full bg-neutral-900 py-4 text-center text-xs font-semibold tracking-[0.15em] text-white transition hover:bg-neutral-700"
+          >
             PROCEED TO CHECKOUT
-          </button>
+          </Link>
         </div>
       </div>
     </div>
